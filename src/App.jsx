@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { HomePage } from './pages/HomePage';
 import { CreatePage } from './pages/CreatePage';
@@ -26,6 +26,7 @@ export default function App() {
         <Route path="create" element={<CreatePage />} />
         <Route path="edit" element={<EditPage />} />
         <Route path="view" element={<ViewPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
