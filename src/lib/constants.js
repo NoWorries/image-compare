@@ -1,4 +1,4 @@
-export const STORAGE_KEY = 'xdl-swipe-history';
+export const STORAGE_KEY = 'juxta-history';
 export const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
 export const MAX_FILE_SIZE_MB = 5;
 

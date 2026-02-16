@@ -624,7 +624,7 @@ if(document.readyState === 'loading') document.addEventListener('DOMContentLoade
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image compare – History Export</title>
+  <title>Juxta – History Export</title>
   <style>${css}</style>
 </head>
 <body>
@@ -643,7 +643,7 @@ export function downloadStandaloneHistory(records) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `xdl-swipe-history-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}.html`;
+  a.download = `juxta-history-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}.html`;
   a.click();
   URL.revokeObjectURL(url);
 }

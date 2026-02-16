@@ -1,6 +1,6 @@
 import { STORAGE_KEY } from './constants';
 
-const DB_NAME = 'xdl-swipe-db';
+const DB_NAME = 'juxta-db';
 const DB_VERSION = 1;
 const STORE_NAME = 'history';
 const RECORDS_KEY = 'records';

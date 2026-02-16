@@ -1,4 +1,4 @@
-# Image compare
+# Juxta
 
 A web app for designers to compare two images with a swipe slider. Create before/after pairs, store them in your browser, and share or export as standalone HTML.
 

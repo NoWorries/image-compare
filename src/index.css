@@ -871,42 +871,27 @@ body {
   line-height: 1.5;
 }
 
-.empty-state__drop-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  max-width: 760px;
-  margin: 0 auto 48px;
-}
-
-@media (max-width: 640px) {
-  .empty-state__drop-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-.empty-state__drop-col {
+/* Reuse create-page form layout for dropzones + button */
+.empty-state__form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto;
+  margin-bottom: 32px;
 }
 
-.empty-state__drop-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #c9d1d9;
-}
-
-.empty-state__drop-row .drop-zone {
+.empty-state__form .drop-zone {
   min-height: 180px;
 }
 
-.empty-state__actions {
-  text-align: center;
-  margin-top: 8px;
+.empty-state__form .form-actions {
+  margin-top: 0;
+  margin-bottom: 0;
+  justify-content: center;
 }
 
-.empty-state__actions .btn {
+.empty-state__form .form-actions .btn {
   min-width: 200px;
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loadHistory, deleteRecord } from '../lib/storage';
 import { downloadStandaloneHistory } from '../lib/downloadHtml';
@@ -8,6 +8,8 @@ import { ImageDropZone } from '../components/ImageDropZone';
 export function HomePage() {
   const navigate = useNavigate();
   const [history, setHistory] = useState([]);
+  const emptyBeforeRef = useRef(null);
+  const emptyAfterRef = useRef(null);
 
   useEffect(() => {
     loadHistory().then(setHistory);
@@ -36,7 +38,7 @@ export function HomePage() {
     <div className="home-layout">
       <aside className="home-sidebar">
         <div className="home-sidebar__actions">
-          <h1 className="home-sidebar__title">Image compare</h1>
+          <h1 className="home-sidebar__title">Juxta</h1>
           <Link to="/create" className="btn btn--secondary home-sidebar__btn">
             New comparison
           </Link>
@@ -113,36 +115,72 @@ export function HomePage() {
             </p>
           </header>
 
-          <div className="empty-state__drop-row">
-            <div className="empty-state__drop-col">
-              <span className="empty-state__drop-label">Before</span>
-              <ImageDropZone value={emptyBefore} onChange={setEmptyBefore} label="Before" />
+          <div className="empty-state__form">
+            <div className="form-row form-row--two">
+              <div className="form-group">
+                <div className="edit-image-header">
+                  <label>Before image</label>
+                  {emptyBefore?.dataUrl && (
+                    <button
+                      type="button"
+                      className="btn btn--secondary btn--xs"
+                      onClick={() => emptyBeforeRef.current?.openFileDialog?.()}
+                    >
+                      Replace before
+                    </button>
+                  )}
+                </div>
+                <ImageDropZone
+                  ref={emptyBeforeRef}
+                  value={emptyBefore}
+                  onChange={setEmptyBefore}
+                  label="Before"
+                  editMode={!!emptyBefore?.dataUrl}
+                />
+              </div>
+              <div className="form-group">
+                <div className="edit-image-header">
+                  <label>After image</label>
+                  {emptyAfter?.dataUrl && (
+                    <button
+                      type="button"
+                      className="btn btn--secondary btn--xs"
+                      onClick={() => emptyAfterRef.current?.openFileDialog?.()}
+                    >
+                      Replace after
+                    </button>
+                  )}
+                </div>
+                <ImageDropZone
+                  ref={emptyAfterRef}
+                  value={emptyAfter}
+                  onChange={setEmptyAfter}
+                  label="After"
+                  editMode={!!emptyAfter?.dataUrl}
+                />
+              </div>
             </div>
-            <div className="empty-state__drop-col">
-              <span className="empty-state__drop-label">After</span>
-              <ImageDropZone value={emptyAfter} onChange={setEmptyAfter} label="After" />
-            </div>
+            {emptyBefore?.dataUrl && emptyAfter?.dataUrl && !emptyBefore?.error && !emptyAfter?.error && (
+              <div className="form-actions">
+                <button
+                  type="button"
+                  className="btn btn--primary"
+                  onClick={() =>
+                    navigate('/create', {
+                      state: {
+                        before: emptyBefore,
+                        after: emptyAfter,
+                        imageBefore: emptyBefore.dataUrl,
+                        imageAfter: emptyAfter.dataUrl,
+                      },
+                    })
+                  }
+                >
+                  Add details & create
+                </button>
+              </div>
+            )}
           </div>
-          {emptyBefore?.dataUrl && emptyAfter?.dataUrl && !emptyBefore?.error && !emptyAfter?.error && (
-            <div className="empty-state__actions">
-              <button
-                type="button"
-                className="btn btn--primary"
-                onClick={() =>
-                  navigate('/create', {
-                    state: {
-                      before: emptyBefore,
-                      after: emptyAfter,
-                      imageBefore: emptyBefore.dataUrl,
-                      imageAfter: emptyAfter.dataUrl,
-                    },
-                  })
-                }
-              >
-                Add details & create
-              </button>
-            </div>
-          )}
 
           <section className="empty-state__features" aria-label="What you can do">
             <h3 className="empty-state__features-title">What you can do</h3>
