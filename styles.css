@@ -1,0 +1,245 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #F6F6F8;
+}
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 0 24px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.nav__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 4px;
+}
+
+.nav__size-toggle {
+  flex-shrink: 0;
+}
+
+.nav__size-btn {
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8b949e;
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.nav__size-btn:hover {
+  color: #c9d1d9;
+  background: #30363d;
+}
+
+.nav__size-btn[aria-pressed="true"] {
+  color: #58a6ff;
+  border-color: #58a6ff;
+  background: rgba(88, 166, 255, 0.1);
+}
+
+.nav__link {
+  display: block;
+  padding: 12px 16px;
+  color: #8b949e;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.nav__link:hover {
+  color: #c9d1d9;
+}
+
+.nav__link--active {
+  color: #58a6ff;
+  border-bottom-color: #58a6ff;
+}
+
+/* Comparison wrapper: centers fixed-width content */
+.comparison-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* Comparison container: width/height set by JS from image natural dimensions */
+.comparison {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  contain: layout style paint;
+  cursor: col-resize;
+}
+
+.comparison__base,
+.comparison__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.comparison__base {
+  z-index: 0;
+  cursor: default;
+}
+
+.comparison__overlay {
+  z-index: 1;
+  clip-path: inset(0 0 0 50%);
+  pointer-events: none;
+  cursor: default;
+}
+
+.comparison__img {
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+  object-fit: fill;
+  /* width/height set by JS so both images use the same scale */
+}
+
+/* Handle: vertical line + grabbable grip (left/transform set by JS for performance).
+   Drag targets are line and grip only — handle container is not used for drag. */
+.comparison__handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+/* Drag the line: col-resize cursor */
+.comparison__handle-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: #fff;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+  cursor: col-resize;
+}
+
+/* Drag the grip: grab cursor */
+.comparison__handle-grip {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  color: #24292f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease;
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+.comparison__handle-grip:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+/* Cursor during drag: col-resize when dragging from line, grabbing when from grip */
+body.is-dragging-line,
+body.is-dragging-line * {
+  cursor: col-resize !important;
+}
+
+body.is-dragging-grip,
+body.is-dragging-grip * {
+  cursor: grabbing !important;
+  cursor: -webkit-grabbing !important;
+}
+
+.comparison__handle:hover .comparison__handle-grip {
+  transform: scale(1.08);
+}
+
+.comparison__handle:active .comparison__handle-grip {
+  transform: scale(1.02);
+}
+
+/* Promote handle and overlay to compositor layers during drag so clip-path and
+   transform update in sync (avoids gap when dragging right-to-left). */
+.comparison.is-dragging .comparison__handle {
+  will-change: transform;
+}
+
+.comparison__overlay.is-dragging {
+  will-change: clip-path;
+}
+
+/* Optional: labels (can be toggled or removed) */
+.comparison__base::after,
+.comparison__overlay::after {
+  position: absolute;
+  top: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.comparison__base::after {
+  right: 12px;
+  content: "After";
+}
+
+.comparison__overlay::after {
+  left: 12px;
+  content: "Before";
+}
