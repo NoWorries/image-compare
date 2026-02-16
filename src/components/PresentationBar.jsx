@@ -198,7 +198,6 @@ export function PresentationBar({
           )}
           <span className="presentation-bar__btn-label">{isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}</span>
         </button>
-        {/* Download/export option hidden for now – logic kept in onExport
         {onExport && (
           <button
             type="button"
@@ -215,7 +214,6 @@ export function PresentationBar({
             <span className="presentation-bar__btn-label">Export</span>
           </button>
         )}
-        */}
         <div className="presentation-bar__more">
           <button
             type="button"

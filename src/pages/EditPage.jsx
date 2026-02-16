@@ -312,11 +312,9 @@ export function EditPage() {
           <button type="submit" className="btn btn--primary" disabled={!canSubmit}>
             Save changes
           </button>
-          {/* Download option hidden for now – logic kept in handleDownloadHtml
           <button type="button" className="btn btn--secondary" onClick={handleDownloadHtml}>
             Download as ZIP
           </button>
-          */}
         </div>
         <div className="edit-page__danger-row">
           <button type="button" className="btn btn--danger" onClick={handleDelete}>
